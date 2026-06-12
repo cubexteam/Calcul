@@ -11,6 +11,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.material3.Text
@@ -55,8 +56,15 @@ fun CalculatorScreen(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            IconButton(onClick = { viewModel.onAction(CalculatorAction.ToggleHistory) }) {
-                Icon(Icons.Default.History, contentDescription = "History", tint = if (state.showHistory) AppleOrange else Color.Gray)
+            Row {
+                IconButton(onClick = { viewModel.onAction(CalculatorAction.ToggleHistory) }) {
+                    Icon(Icons.Default.History, contentDescription = "History", tint = if (state.showHistory) AppleOrange else Color.Gray)
+                }
+                if (state.showHistory && state.history.isNotEmpty()) {
+                    IconButton(onClick = { viewModel.onAction(CalculatorAction.ClearHistory) }) {
+                        Icon(Icons.Default.Delete, contentDescription = "Clear History", tint = Color.Gray)
+                    }
+                }
             }
             IconButton(onClick = { viewModel.onAction(CalculatorAction.ToggleScientificMode) }) {
                 Icon(Icons.Default.Science, contentDescription = "Scientific Mode", tint = if (state.isScientificMode) AppleOrange else Color.Gray)

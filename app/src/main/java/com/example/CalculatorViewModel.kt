@@ -55,6 +55,9 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorAction.RestoreHistory -> _uiState.update { 
                 it.copy(displayText = action.record.result, isNewOperand = true, showHistory = false) 
             }
+            is CalculatorAction.ClearHistory -> _uiState.update {
+                it.copy(history = emptyList())
+            }
         }
     }
 
@@ -256,5 +259,6 @@ sealed interface CalculatorAction {
     data object ToggleScientificMode : CalculatorAction
     data object ToggleHistory : CalculatorAction
     data class RestoreHistory(val record: CalculationRecord) : CalculatorAction
+    data object ClearHistory : CalculatorAction
 }
 
