@@ -25,11 +25,21 @@ jobs:
     - name: Generate Gradle Wrapper
       run: gradle wrapper
 
-    - name: Build Debug APK
-      run: ./gradlew assembleDebug --stacktrace
+    - name: Generate Debug Keystore (to fix debugConfig evaluation)
+      run: keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+
+    - name: Generate Release Keystore for SantianDev
+      run: keytool -genkey -v -keystore release.keystore -storepass android123 -alias upload -keypass android123 -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=SantianDev,O=SantianDev,C=RU"
+
+    - name: Build Release APK
+      env:
+        KEYSTORE_PATH: ${{ github.workspace }}/release.keystore
+        STORE_PASSWORD: android123
+        KEY_PASSWORD: android123
+      run: ./gradlew assembleRelease --build-cache --stacktrace
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: app-debug-apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+        name: Calculator-v1.1-SantianDev
+        path: app/build/outputs/apk/release/app-release.apk

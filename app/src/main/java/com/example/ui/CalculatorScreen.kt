@@ -54,9 +54,10 @@ fun CalculatorScreen(
         // Top bar for toggles
         Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = { viewModel.onAction(CalculatorAction.ToggleHistory) }) {
                     Icon(Icons.Default.History, contentDescription = "History", tint = if (state.showHistory) AppleOrange else Color.Gray)
                 }
@@ -66,6 +67,7 @@ fun CalculatorScreen(
                     }
                 }
             }
+            Text(text = "v1.1.0\nby SantianDev", color = Color.DarkGray, fontSize = 12.sp, textAlign = TextAlign.Center)
             IconButton(onClick = { viewModel.onAction(CalculatorAction.ToggleScientificMode) }) {
                 Icon(Icons.Default.Science, contentDescription = "Scientific Mode", tint = if (state.isScientificMode) AppleOrange else Color.Gray)
             }
